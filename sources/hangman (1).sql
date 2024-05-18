@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 10:48 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Hôte : localhost
+-- Généré le : sam. 18 mai 2024 à 18:18
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hangman`
+-- Base de données : `hangman`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Structure de la table `account`
 --
 
 CREATE TABLE `account` (
@@ -34,17 +34,23 @@ CREATE TABLE `account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `account`
+-- Déchargement des données de la table `account`
 --
 
 INSERT INTO `account` (`idaccount`, `username`, `password`) VALUES
-(1, ' allali', 'allali123'),
-(2, 'insaf ', 'insaf123');
+(1, 'allali', 'allali123'),
+(2, 'insaf ', 'insaf123'),
+(9, 'zaki', '123'),
+(10, 'ahlan', 'kopu'),
+(11, 'ahlam123', 'ahlam12w'),
+(12, 'nada123', 'opo'),
+(13, 'salam', '111'),
+(14, 'yuri', '123');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Structure de la table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -56,7 +62,7 @@ CREATE TABLE `admin` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hint`
+-- Structure de la table `hint`
 --
 
 CREATE TABLE `hint` (
@@ -66,7 +72,7 @@ CREATE TABLE `hint` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hint`
+-- Déchargement des données de la table `hint`
 --
 
 INSERT INTO `hint` (`idhint`, `idword`, `hintvalue`) VALUES
@@ -93,7 +99,7 @@ INSERT INTO `hint` (`idhint`, `idword`, `hintvalue`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `history`
+-- Structure de la table `history`
 --
 
 CREATE TABLE `history` (
@@ -107,7 +113,7 @@ CREATE TABLE `history` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `laderboard`
+-- Structure de la table `laderboard`
 --
 
 CREATE TABLE `laderboard` (
@@ -120,19 +126,31 @@ CREATE TABLE `laderboard` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player`
+-- Structure de la table `player`
 --
 
 CREATE TABLE `player` (
   `iduser` int(11) NOT NULL,
-  `idaccount` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL
+  `name` varchar(30) NOT NULL,
+  `idaccount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `player`
+--
+
+INSERT INTO `player` (`iduser`, `name`, `idaccount`) VALUES
+(3, 'anouk', 9),
+(4, 'mhemed', 10),
+(5, 'ahlam', 11),
+(6, 'nada', 12),
+(7, 'salam', 13),
+(8, 'yousra', 14);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
+-- Structure de la table `settings`
 --
 
 CREATE TABLE `settings` (
@@ -145,7 +163,7 @@ CREATE TABLE `settings` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `topic`
+-- Structure de la table `topic`
 --
 
 CREATE TABLE `topic` (
@@ -154,7 +172,7 @@ CREATE TABLE `topic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `topic`
+-- Déchargement des données de la table `topic`
 --
 
 INSERT INTO `topic` (`idtopic`, `topicname`) VALUES
@@ -172,107 +190,106 @@ INSERT INTO `topic` (`idtopic`, `topicname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `word`
+-- Structure de la table `word`
 --
 
 CREATE TABLE `word` (
   `idword` int(11) NOT NULL,
   `idtopic` int(11) NOT NULL,
   `word` varchar(30) NOT NULL,
-  `description` mediumtext NOT NULL,
   `difficulty-level` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `word`
+-- Déchargement des données de la table `word`
 --
 
-INSERT INTO `word` (`idword`, `idtopic`, `word`, `description`, `difficulty-level`) VALUES
-(1, 6, 'Elephant', '', 1),
-(2, 6, 'penguin', '', 3),
-(3, 6, 'kangaroo', '', 3),
-(4, 6, 'crocodile', '', 2),
-(5, 6, 'giraffe', '', 1),
-(6, 6, 'platypus', '', 3),
-(7, 6, 'chameleon', '', 2),
-(8, 6, 'cat', '', 1),
-(9, 6, 'hippopotamus', '', 3),
-(10, 6, 'Orangutan', '', 3),
-(11, 14, 'australia', '', 1),
-(12, 14, 'brazil', '', 1),
-(13, 14, 'canada', '', 2),
-(14, 14, 'egypt', '', 2),
-(15, 14, 'morocco', '', 3),
-(16, 14, 'honduras', '', 3),
-(17, 14, 'japan', '', 2),
-(18, 14, 'finland', '', 3),
-(19, 14, 'indounisia', '', 3),
-(20, 14, 'saoudia', '', 3),
-(21, 9, 'apple', '', 1),
-(22, 9, 'banana', '', 1),
-(23, 9, 'cherry', '', 2),
-(24, 9, 'fig', '', 3),
-(25, 9, 'kiwi', '', 2),
-(26, 9, 'dragonfruit', '', 3),
-(27, 9, 'lime', '', 3),
-(28, 9, 'huckleberry', '', 3),
-(29, 9, 'orange', '', 2),
-(30, 8, 'inception', '', 1),
-(31, 8, 'titanic', '', 1),
-(32, 8, 'avatar', '', 2),
-(33, 8, 'amadeus', '', 3),
-(34, 8, 'casablanca', '', 0),
-(35, 8, 'inception', '', 1),
-(36, 8, 'titanic', '', 1),
-(37, 8, 'avatar', '', 2),
-(38, 8, 'amadeus', '', 3),
-(39, 8, 'casablanca', '', 3),
-(40, 11, 'venus', '', 1),
-(41, 11, 'mars', '', 2),
-(42, 11, 'pluto', '', 3),
-(43, 11, 'saturn', '', 3),
-(44, 7, 'soccer', '', 2),
-(45, 7, 'badminton', '', 3),
-(46, 7, 'archery', '', 3),
-(47, 7, 'surfing', '', 2),
-(48, 7, 'tennis', '', 1),
-(49, 10, 'Moby Dick', '', 1),
-(50, 10, 'hamlet', '', 1),
-(51, 10, 'odyssey', '', 3),
-(52, 10, 'inferno', '', 2),
-(53, 10, 'iliad', '', 0),
-(54, 10, 'Moby Dick', '', 1),
-(55, 10, 'hamlet', '', 1),
-(56, 10, 'odyssey', '', 3),
-(57, 10, 'inferno', '', 2),
-(58, 10, 'iliad', '', 2);
+INSERT INTO `word` (`idword`, `idtopic`, `word`, `difficulty-level`) VALUES
+(1, 6, 'Elephant', 1),
+(2, 6, 'penguin', 3),
+(3, 6, 'kangaroo', 3),
+(4, 6, 'crocodile', 2),
+(5, 6, 'giraffe', 1),
+(6, 6, 'platypus', 3),
+(7, 6, 'chameleon', 2),
+(8, 6, 'cat', 1),
+(9, 6, 'hippopotamus', 3),
+(10, 6, 'Orangutan', 3),
+(11, 14, 'australia', 1),
+(12, 14, 'brazil', 1),
+(13, 14, 'canada', 2),
+(14, 14, 'egypt', 2),
+(15, 14, 'morocco', 3),
+(16, 14, 'honduras', 3),
+(17, 14, 'japan', 2),
+(18, 14, 'finland', 3),
+(19, 14, 'indounisia', 3),
+(20, 14, 'saoudia', 3),
+(21, 9, 'apple', 1),
+(22, 9, 'banana', 1),
+(23, 9, 'cherry', 2),
+(24, 9, 'fig', 3),
+(25, 9, 'kiwi', 2),
+(26, 9, 'dragonfruit', 3),
+(27, 9, 'lime', 3),
+(28, 9, 'huckleberry', 3),
+(29, 9, 'orange', 2),
+(30, 8, 'inception', 1),
+(31, 8, 'titanic', 1),
+(32, 8, 'avatar', 2),
+(33, 8, 'amadeus', 3),
+(34, 8, 'casablanca', 0),
+(35, 8, 'inception', 1),
+(36, 8, 'titanic', 1),
+(37, 8, 'avatar', 2),
+(38, 8, 'amadeus', 3),
+(39, 8, 'casablanca', 3),
+(40, 11, 'venus', 1),
+(41, 11, 'mars', 2),
+(42, 11, 'pluto', 3),
+(43, 11, 'saturn', 3),
+(44, 7, 'soccer', 2),
+(45, 7, 'badminton', 3),
+(46, 7, 'archery', 3),
+(47, 7, 'surfing', 2),
+(48, 7, 'tennis', 1),
+(49, 10, 'Moby Dick', 1),
+(50, 10, 'hamlet', 1),
+(51, 10, 'odyssey', 3),
+(52, 10, 'inferno', 2),
+(53, 10, 'iliad', 0),
+(54, 10, 'Moby Dick', 1),
+(55, 10, 'hamlet', 1),
+(56, 10, 'odyssey', 3),
+(57, 10, 'inferno', 2),
+(58, 10, 'iliad', 2);
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `account`
+-- Index pour la table `account`
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`idaccount`);
 
 --
--- Indexes for table `admin`
+-- Index pour la table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`idadmin`),
   ADD KEY `fk_account2` (`idaccount`);
 
 --
--- Indexes for table `hint`
+-- Index pour la table `hint`
 --
 ALTER TABLE `hint`
   ADD PRIMARY KEY (`idhint`),
   ADD KEY `fk_word` (`idword`);
 
 --
--- Indexes for table `history`
+-- Index pour la table `history`
 --
 ALTER TABLE `history`
   ADD PRIMARY KEY (`idgame`),
@@ -280,140 +297,140 @@ ALTER TABLE `history`
   ADD KEY `fk_word2` (`idword`);
 
 --
--- Indexes for table `laderboard`
+-- Index pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
   ADD PRIMARY KEY (`idladerboard`),
   ADD KEY `fk_user3` (`iduser`);
 
 --
--- Indexes for table `player`
+-- Index pour la table `player`
 --
 ALTER TABLE `player`
   ADD PRIMARY KEY (`iduser`),
-  ADD KEY `fk_account1` (`idaccount`);
+  ADD KEY `fk1_account` (`idaccount`);
 
 --
--- Indexes for table `settings`
+-- Index pour la table `settings`
 --
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`idsettings`),
   ADD KEY `fk_user4` (`iduser`);
 
 --
--- Indexes for table `topic`
+-- Index pour la table `topic`
 --
 ALTER TABLE `topic`
   ADD PRIMARY KEY (`idtopic`);
 
 --
--- Indexes for table `word`
+-- Index pour la table `word`
 --
 ALTER TABLE `word`
   ADD PRIMARY KEY (`idword`),
   ADD KEY `fk_topic` (`idtopic`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `account`
+-- AUTO_INCREMENT pour la table `account`
 --
 ALTER TABLE `account`
-  MODIFY `idaccount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idaccount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT pour la table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `idadmin` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `hint`
+-- AUTO_INCREMENT pour la table `hint`
 --
 ALTER TABLE `hint`
   MODIFY `idhint` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `history`
+-- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
   MODIFY `idgame` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `laderboard`
+-- AUTO_INCREMENT pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
   MODIFY `idladerboard` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `player`
+-- AUTO_INCREMENT pour la table `player`
 --
 ALTER TABLE `player`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `settings`
+-- AUTO_INCREMENT pour la table `settings`
 --
 ALTER TABLE `settings`
   MODIFY `idsettings` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `topic`
+-- AUTO_INCREMENT pour la table `topic`
 --
 ALTER TABLE `topic`
   MODIFY `idtopic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `word`
+-- AUTO_INCREMENT pour la table `word`
 --
 ALTER TABLE `word`
   MODIFY `idword` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `admin`
+-- Contraintes pour la table `admin`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `fk_account2` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
 
 --
--- Constraints for table `hint`
+-- Contraintes pour la table `hint`
 --
 ALTER TABLE `hint`
   ADD CONSTRAINT `fk_word` FOREIGN KEY (`idword`) REFERENCES `word` (`idword`);
 
 --
--- Constraints for table `history`
+-- Contraintes pour la table `history`
 --
 ALTER TABLE `history`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`),
   ADD CONSTRAINT `fk_word2` FOREIGN KEY (`idword`) REFERENCES `word` (`idword`);
 
 --
--- Constraints for table `laderboard`
+-- Contraintes pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
   ADD CONSTRAINT `fk_user3` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`);
 
 --
--- Constraints for table `player`
+-- Contraintes pour la table `player`
 --
 ALTER TABLE `player`
-  ADD CONSTRAINT `fk_account1` FOREIGN KEY (`idaccount`) REFERENCES `player` (`iduser`);
+  ADD CONSTRAINT `fk1_account` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
 
 --
--- Constraints for table `settings`
+-- Contraintes pour la table `settings`
 --
 ALTER TABLE `settings`
   ADD CONSTRAINT `fk_user4` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`);
 
 --
--- Constraints for table `word`
+-- Contraintes pour la table `word`
 --
 ALTER TABLE `word`
   ADD CONSTRAINT `fk_topic` FOREIGN KEY (`idtopic`) REFERENCES `topic` (`idtopic`);
