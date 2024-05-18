@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtWidgets import QMessageBox, QApplication, QMainWindow, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, \
-    QPushButton, QWidget, QSpacerItem, QSizePolicy
+from PySide6.QtWidgets import *
 from PySide6.QtGui import QPixmap
 import conn
+import interface_Login
 
 
 class SingupWindow(QMainWindow):
@@ -13,12 +13,12 @@ class SingupWindow(QMainWindow):
         main_widget = QWidget()
         self.setCentralWidget(main_widget)
         main_layout = QHBoxLayout(main_widget)
-        self.resize(800, 500)
+        self.setGeometry(100, 100, 800, 500)
         self.setWindowTitle("Sign In")
 
         # Set the background image
         self.background_label = QLabel(self)
-        pixmap = QPixmap("./bg_image.jpeg")  # Provide the correct path to your background image
+        pixmap = QPixmap("images/bg_image.jpeg")  # Provide the correct path to your background image
         self.background_label.setPixmap(pixmap)
         self.background_label.setGeometry(0, 0, 800, 500)
         self.background_label.setScaledContents(True)
@@ -29,9 +29,10 @@ class SingupWindow(QMainWindow):
         form_layout.setContentsMargins(2, 2, 10, 10)
 
         # Function to add widget with label
-        def add_widget_with_label(layout, widget, label_text):
+        def add_widget_with_label(layout, widget, label_text,color):
             vbox = QVBoxLayout()
             label = QLabel(label_text)
+            label.setStyleSheet("color: {};".format(color))
             vbox.addWidget(label)
             vbox.addWidget(widget)
             layout.addLayout(vbox)
@@ -50,17 +51,17 @@ class SingupWindow(QMainWindow):
         self.name_input.setFixedWidth(350)
         self.confirm_input.setFixedWidth(350)
 
-        # input_style = "background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px ;height : 20px;"
-        self.name_input.setStyleSheet("background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px ;height : 20px;")
-        self.username_input.setStyleSheet("background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px ;height : 20px;")
-        self.password_input.setStyleSheet("background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px ;height : 20px;")
-        self.confirm_input.setStyleSheet("background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px ;height : 20px;")
+        input_style = "background-color: #E8E9EB; color: black; font-size: 20px; border-radius:10px; padding: 10px;"
+        self.name_input.setStyleSheet(input_style)
+        self.username_input.setStyleSheet(input_style)
+        self.password_input.setStyleSheet(input_style)
+        self.confirm_input.setStyleSheet(input_style)
 
         # Add the input fields with labels to the form layout
-        add_widget_with_label(form_layout, self.name_input, "Name:")
-        add_widget_with_label(form_layout, self.username_input, "Username:")
-        add_widget_with_label(form_layout, self.password_input, "Password:")
-        add_widget_with_label(form_layout, self.confirm_input, "Confirm Password:")
+        add_widget_with_label(form_layout, self.name_input, "Name:", "black")
+        add_widget_with_label(form_layout, self.username_input, "Username:", "black")
+        add_widget_with_label(form_layout, self.password_input, "Password:", "black")
+        add_widget_with_label(form_layout, self.confirm_input, "Confirm Password:", "black")
 
         # Add a submit button
         submit_button = QPushButton("Sign In")
@@ -78,22 +79,49 @@ class SingupWindow(QMainWindow):
         main_layout.addLayout(form_layout)
 
     def handle_sign_up(self):
+        name = self.name_input.text()
         username = self.username_input.text()
         password = self.password_input.text()
-        try:
-            cur = conn.connection.cursor()
+        confirm = self.confirm_input.text()
+        if confirm == password:
+            try:
+                cur = conn.connection.cursor()
 
-            sql = "INSERT INTO account (username, password) VALUES (%s, %s) "
-            params = (username, password)
-            cur.execute(sql, params)
+                sql = "INSERT INTO account (username, password) VALUES (%s, %s) "
+                params = (username, password)
+                cur.execute(sql, params)
+                conn.connection.commit()
 
-            conn.connection.commit()
+                sql2 = "SELECT idaccount FROM account WHERE username = %s AND password = %s "
+                params2 = (username, password)
+                cur.execute(sql2, params2)
+                res = cur.fetchall()
 
-            QMessageBox.information(self, "Your account is Successfuly created", f"Welcome, {username}!")
 
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+                value = int(res[0][0])
 
+                QMessageBox.information(self, "Account success", f"Account ID: {value}!")
+
+                sql3 = "INSERT INTO player (name, idaccount) VALUES (%s, %s) "
+                InsertParams = (name, value)
+                cur.execute(sql3, InsertParams)
+                conn.connection.commit()
+
+
+
+                QMessageBox.information(self, "Account success", f"Your account is Successfully created, {username}!")
+                self.go_to_login()
+
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+        else:
+            QMessageBox.critical(self, "Error", "Your passwords are not matching")
+
+
+    def go_to_login(self):
+        self.login_window = interface_Login.LoginWindow()
+        self.login_window.show()
+        self.close()
 
 # Run the application
 app = QApplication(sys.argv)

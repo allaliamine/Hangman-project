@@ -1,6 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, \
-    QMessageBox, QGroupBox
+from PySide6.QtWidgets import *
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
@@ -23,7 +22,7 @@ class LoginWindow(QMainWindow):
 
         # Add background label
         self.background_label = QLabel(self)
-        pixmap = QPixmap("./bg_image.jpeg")  # Provide the path to your background image
+        pixmap = QPixmap("images/bg_image.jpeg")  # Provide the path to your background image
         self.background_label.setPixmap(pixmap)
         self.background_label.setGeometry(0, 0, 800, 500)
         self.background_label.setScaledContents(True)
@@ -98,10 +97,3 @@ class LoginWindow(QMainWindow):
                 QMessageBox.warning(self, "Login Failed", "Incorrect username or password.")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred: {e}")
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    login_window = LoginWindow()
-    login_window.show()
-    sys.exit(app.exec())
