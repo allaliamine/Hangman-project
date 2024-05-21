@@ -3,6 +3,7 @@ from PySide6.QtGui import Qt
 
 import Play_interface
 import interface_Login
+import interface_classement
 import interface_settings
 
 
@@ -43,6 +44,7 @@ class InterfaceChoice(QMainWindow):
         self.classement_button.setStyleSheet(
             "background-color: black; color: white; font-size: 20px; border-radius: 10px; padding: 10px;")
         self.classement_button.setFixedWidth(350)
+        self.classement_button.clicked.connect(self.classement)
 
         # create the Settings button
         self.Settings_button = QPushButton("Settings")
@@ -84,6 +86,11 @@ class InterfaceChoice(QMainWindow):
     def exit(self):
 
         self.login_window = interface_Login.LoginWindow()
+        self.login_window.show()
+        self.close()
+
+    def classement(self):
+        self.login_window = interface_classement.ClassementtWindow(user_data=self.user_data)
         self.login_window.show()
         self.close()
 

@@ -72,13 +72,13 @@ class SingupWindow(QMainWindow):
             "background-color: black; color: white ; border-radius:10px; padding: 10px ; height : 20px;")
 
         # Connect the button to a function (e.g., for processing the sign-in)
-        submit_button.clicked.connect(self.handle_sign_up)
+        submit_button.clicked.connect(self.sign_up)
 
         # Add a spacer item to push the form layout to the right
         main_layout.addSpacerItem(QSpacerItem(30, 10, QSizePolicy.Expanding, QSizePolicy.Minimum))
         main_layout.addLayout(form_layout)
 
-    def handle_sign_up(self):
+    def sign_up(self):
         name = self.name_input.text()
         username = self.username_input.text()
         password = self.password_input.text()
@@ -123,8 +123,8 @@ class SingupWindow(QMainWindow):
         self.login_window.show()
         self.close()
 
-# Run the application
-app = QApplication(sys.argv)
-window = SingupWindow()
-window.show()
-sys.exit(app.exec())
+# # Run the application
+# app = QApplication(sys.argv)
+# window = SingupWindow()
+# window.show()
+# sys.exit(app.exec())
