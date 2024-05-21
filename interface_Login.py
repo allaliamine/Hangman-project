@@ -4,6 +4,7 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 import conn
+import interface_ini
 
 
 class LoginWindow(QMainWindow):
@@ -29,17 +30,16 @@ class LoginWindow(QMainWindow):
         self.background_label.lower()
 
         # Create a group box for the login form
-        self.group_box = QGroupBox("Login")
+        self.group_box = QGroupBox()
         self.group_box.setStyleSheet("font-size: 20px; background-color: white; border-radius: 10px;")
         group_box_layout = QVBoxLayout()
 
-        #add title
+        # add title
         title_layout = QVBoxLayout()
         self.title = QLabel("Sign in")
         self.title.setStyleSheet("color: black; font-size: 30px;")
         self.title.setFixedHeight(60)
         title_layout.addWidget(self.title)
-
 
         # Add username label and input
         username_layout = QVBoxLayout()
@@ -68,7 +68,8 @@ class LoginWindow(QMainWindow):
 
         # Add login button
         self.login_button = QPushButton("Login")
-        self.login_button.setStyleSheet("background-color: black; color: white; font-size: 20px; border-radius: 10px; padding: 10px;")
+        self.login_button.setStyleSheet(
+            "background-color: black; color: white; font-size: 20px; border-radius: 10px; padding: 10px;")
         self.login_button.setFixedWidth(350)
         self.login_button.clicked.connect(self.login)
 
@@ -81,19 +82,28 @@ class LoginWindow(QMainWindow):
         self.group_box.setLayout(group_box_layout)
         main_layout.addWidget(self.group_box, alignment=Qt.AlignRight)
 
+        self.user_data = None
+
     def login(self):
         username = self.username_input.text()
         password = self.password_input.text()
         try:
             cur = conn.connection.cursor()
-            sql = "SELECT * FROM account WHERE username = %s AND password = %s"
+            sql = "SELECT s.idsettings, s.hintenabled, a.idaccount, a.username, a.password, a.name, a.role FROM settings s JOIN account a ON s.idaccount = a.idaccount WHERE a.username = %s AND a.password = %s"
             params = (username, password)
             cur.execute(sql, params)
             res = cur.fetchall()
 
             if res:
-                QMessageBox.information(self, "Login Successful", f"Welcome, {username}!")
+                self.user_data = res[0]
+                QMessageBox.information(self, "Login Successful", f"Welcome, {self.user_data}!")
+                self.enter()
             else:
                 QMessageBox.warning(self, "Login Failed", "Incorrect username or password.")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+
+    def enter(self):
+        self.login_window = interface_ini.InterfaceChoice(user_data=self.user_data)
+        self.login_window.show()
+        self.close()
