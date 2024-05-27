@@ -103,6 +103,21 @@ class ChangePasswordWindow(QMainWindow):
         confirm_password = self.confirm_password_input.text()
         hint_enabled = 1 if self.hint_enabled_checkbox.isChecked() else 0
 
+        # Check if the new password is empty
+        if not new_password:
+            # Only update the hint if the password is empty
+            try:
+                cur = conn.connection.cursor()
+                sql2 = "UPDATE settings SET hintenabled = %s WHERE idaccount = %s"
+                params2 = (hint_enabled, self.user_data[2])
+                cur.execute(sql2, params2)
+                conn.connection.commit()
+                QMessageBox.information(self, "Success", "Hint updated successfully.")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+            return
+
+        # If the password is not empty, proceed with password validation and update
         if new_password != confirm_password:
             QMessageBox.warning(self, "Error", "Passwords do not match.")
             return
@@ -116,14 +131,9 @@ class ChangePasswordWindow(QMainWindow):
             cur.execute(sql, params)
             cur.execute(sql2, params2)
             conn.connection.commit()
-            QMessageBox.information(self, "Success", "Password changed successfully.")
+            QMessageBox.information(self, "Success", "Password and hint changed successfully.")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred: {e}")
-
-    # def enter(self):
-    #     self.login_window = interface_ini.InterfaceChoice(user_data=self.user_data)
-    #     self.login_window.show()
-    #     self.close()
 
     def choice_interface(self):
         self.login_window = interface_ini.InterfaceChoice(user_data=self.user_data)

@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import *
 from PySide6.QtGui import QPixmap
 import conn
+import inetrface_0
 import interface_Login
 
 
@@ -74,6 +75,17 @@ class SingupWindow(QMainWindow):
         # Connect the button to a function (e.g., for processing the sign-in)
         submit_button.clicked.connect(self.sign_up)
 
+        # Add the exit button
+        self.exit_button = QPushButton("Exit")
+        self.exit_button.setStyleSheet(
+            "background-color: red; color: white; font-size: 20px; border-radius: 10px; padding: 5px;"
+        )
+        self.exit_button.setFixedWidth(350)
+        self.exit_button.clicked.connect(self.exit)
+
+        # Add the exit button under the submit button
+        form_layout.addWidget(self.exit_button)
+
         # Add a spacer item to push the form layout to the right
         main_layout.addSpacerItem(QSpacerItem(30, 10, QSizePolicy.Expanding, QSizePolicy.Minimum))
         main_layout.addLayout(form_layout)
@@ -83,43 +95,63 @@ class SingupWindow(QMainWindow):
         username = self.username_input.text()
         password = self.password_input.text()
         confirm = self.confirm_input.text()
+
         if confirm == password:
             try:
                 cur = conn.connection.cursor()
 
-                sql = "INSERT INTO account (username, password) VALUES (%s, %s) "
-                params = (username, password)
+                # Check if the username already exists
+                sql0 = "SELECT * FROM account WHERE username = %s"
+                params0 = (username,)
+                cur.execute(sql0, params0)
+                isExist = cur.fetchall()
+
+                if isExist:
+                    QMessageBox.information(self, "Username",
+                                            "Username already exists, please provide another username")
+                    return
+
+                # inert the new account
+                sql = "INSERT INTO account (username, password, name, role) VALUES (%s, %s, %s, %s)"
+                params = (username, password, name, 1)
                 cur.execute(sql, params)
                 conn.connection.commit()
 
-                sql2 = "SELECT idaccount FROM account WHERE username = %s AND password = %s "
+                # Retrieve the new account's ID
+                sql2 = "SELECT idaccount FROM account WHERE username = %s AND password = %s"
                 params2 = (username, password)
                 cur.execute(sql2, params2)
-                res = cur.fetchall()
+                res = cur.fetchone()  # Use fetchone() as only one result is expected
 
+                if res:
+                    value = int(res[0])
+                    # QMessageBox.information(self, "Account success", f"Account ID: {value}!")
 
-                value = int(res[0][0])
+                    # Insert into settings
+                    sql3 = "INSERT INTO settings (idaccount, hintenabled) VALUES (%s, %s)"
+                    insert_params = (value, 1)
+                    cur.execute(sql3, insert_params)
+                    conn.connection.commit()
 
-                QMessageBox.information(self, "Account success", f"Account ID: {value}!")
-
-                sql3 = "INSERT INTO player (name, idaccount) VALUES (%s, %s) "
-                InsertParams = (name, value)
-                cur.execute(sql3, InsertParams)
-                conn.connection.commit()
-
-
-
-                QMessageBox.information(self, "Account success", f"Your account is Successfully created, {username}!")
-                self.go_to_login()
+                    QMessageBox.information(self, "Account success",
+                                            f"Your account is successfully created, {name}!")
+                    self.go_to_login()
+                else:
+                    QMessageBox.critical(self, "Error", "Failed to retrieve the new account ID.")
 
             except Exception as e:
+                conn.connection.rollback()  # Rollback transaction on error
                 QMessageBox.critical(self, "Error", f"An error occurred: {e}")
         else:
-            QMessageBox.critical(self, "Error", "Your passwords are not matching")
-
+            QMessageBox.critical(self, "Error", "Your passwords do not match.")
 
     def go_to_login(self):
         self.login_window = interface_Login.LoginWindow()
+        self.login_window.show()
+        self.close()
+
+    def exit(self):
+        self.login_window = inetrface_0.WelcomeWindow()
         self.login_window.show()
         self.close()
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : sam. 18 mai 2024 à 18:18
+-- Généré le : lun. 27 mai 2024 à 13:46
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -30,34 +30,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `account` (
   `idaccount` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `role` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `account`
 --
 
-INSERT INTO `account` (`idaccount`, `username`, `password`) VALUES
-(1, 'allali', 'allali123'),
-(2, 'insaf ', 'insaf123'),
-(9, 'zaki', '123'),
-(10, 'ahlan', 'kopu'),
-(11, 'ahlam123', 'ahlam12w'),
-(12, 'nada123', 'opo'),
-(13, 'salam', '111'),
-(14, 'yuri', '123');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `admin`
---
-
-CREATE TABLE `admin` (
-  `idadmin` int(11) NOT NULL,
-  `idaccount` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `account` (`idaccount`, `username`, `password`, `name`, `role`) VALUES
+(1, 'allali', 'allali123', 'amine', 0),
+(15, 'ilias123', '1234', 'ilias', 1),
+(16, 'allali99', '123', 'amine', 1),
+(17, 'insaf', 'insaf123', 'insaf', 1);
 
 -- --------------------------------------------------------
 
@@ -93,22 +79,16 @@ INSERT INTO `hint` (`idhint`, `idword`, `hintvalue`) VALUES
 (15, 21, 'A common fruit that comes in red, green, or yellow varieties.'),
 (16, 27, 'A small, green citrus fruit used to add flavor to food and drinks.'),
 (17, 32, ' A sci-fi film set on the alien world of Pandora, directed by James Cameron.'),
-(18, 39, 'A classic romance set during World War II, featuring the famous line \"Here\'s looking at you, kid.\"'),
-(19, 38, 'A biographical drama about the life of composer Wolfgang Amadeus Mozart.');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `history`
---
-
-CREATE TABLE `history` (
-  `idgame` int(11) NOT NULL,
-  `iduser` int(20) NOT NULL,
-  `idword` int(30) NOT NULL,
-  `status` varchar(30) NOT NULL,
-  `guessedletters` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(18, 39, 'A classic romance set during World War II'),
+(19, 38, 'A biographical drama about the life of composer Wolfgang Amadeus Mozart.'),
+(20, 8, 'furry creature often kept as a pet and known for its independent nature.'),
+(21, 9, 'a large, herbivorous mammal known for its massive size and amphibious habits.'),
+(22, 10, 'a reddish-brown primate native to the rainforests of Borneo and Sumatra, known for its long arms and tree-dwelling lifestyle.'),
+(23, 16, 'a country in Central America known for its Caribbean Sea coastline and Mayan ruins.\r\n\r\n\r\n\r\n\r\n\r\n\r\n'),
+(24, 17, 'an island nation in East Asia known for its technology, sushi, and rich cultural heritage.'),
+(25, 18, 'Nordic country in Northern Europe known for its lakes, forests, and Northern Lights.'),
+(26, 19, 'Southeast Asian country made up of thousands of islands, known for its beaches, volcanoes, and diverse cultures.'),
+(27, 20, 'Middle Eastern country known for its vast deserts, oil wealth, and the cities of Mecca and Medina.');
 
 -- --------------------------------------------------------
 
@@ -118,34 +98,18 @@ CREATE TABLE `history` (
 
 CREATE TABLE `laderboard` (
   `idladerboard` int(11) NOT NULL,
-  `iduser` int(11) NOT NULL,
-  `score` int(30) NOT NULL,
-  `rank` int(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `player`
---
-
-CREATE TABLE `player` (
-  `iduser` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `idaccount` int(11) NOT NULL
+  `idaccount` int(11) NOT NULL,
+  `score` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `player`
+-- Déchargement des données de la table `laderboard`
 --
 
-INSERT INTO `player` (`iduser`, `name`, `idaccount`) VALUES
-(3, 'anouk', 9),
-(4, 'mhemed', 10),
-(5, 'ahlam', 11),
-(6, 'nada', 12),
-(7, 'salam', 13),
-(8, 'yousra', 14);
+INSERT INTO `laderboard` (`idladerboard`, `idaccount`, `score`) VALUES
+(1, 1, 11),
+(2, 10, 1),
+(3, 17, 1);
 
 -- --------------------------------------------------------
 
@@ -155,10 +119,19 @@ INSERT INTO `player` (`iduser`, `name`, `idaccount`) VALUES
 
 CREATE TABLE `settings` (
   `idsettings` int(11) NOT NULL,
-  `iduser` int(11) NOT NULL,
-  `hintenabled` varchar(30) NOT NULL,
-  `theme` varchar(30) NOT NULL
+  `idaccount` int(11) NOT NULL,
+  `hintenabled` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `settings`
+--
+
+INSERT INTO `settings` (`idsettings`, `idaccount`, `hintenabled`) VALUES
+(1, 1, 0),
+(2, 15, 1),
+(3, 16, 1),
+(4, 17, 0);
 
 -- --------------------------------------------------------
 
@@ -197,72 +170,72 @@ CREATE TABLE `word` (
   `idword` int(11) NOT NULL,
   `idtopic` int(11) NOT NULL,
   `word` varchar(30) NOT NULL,
-  `difficulty-level` int(11) NOT NULL
+  `difficulty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `word`
 --
 
-INSERT INTO `word` (`idword`, `idtopic`, `word`, `difficulty-level`) VALUES
-(1, 6, 'Elephant', 1),
-(2, 6, 'penguin', 3),
-(3, 6, 'kangaroo', 3),
-(4, 6, 'crocodile', 2),
-(5, 6, 'giraffe', 1),
-(6, 6, 'platypus', 3),
-(7, 6, 'chameleon', 2),
-(8, 6, 'cat', 1),
-(9, 6, 'hippopotamus', 3),
-(10, 6, 'Orangutan', 3),
-(11, 14, 'australia', 1),
-(12, 14, 'brazil', 1),
-(13, 14, 'canada', 2),
-(14, 14, 'egypt', 2),
-(15, 14, 'morocco', 3),
-(16, 14, 'honduras', 3),
-(17, 14, 'japan', 2),
-(18, 14, 'finland', 3),
-(19, 14, 'indounisia', 3),
-(20, 14, 'saoudia', 3),
-(21, 9, 'apple', 1),
-(22, 9, 'banana', 1),
-(23, 9, 'cherry', 2),
-(24, 9, 'fig', 3),
-(25, 9, 'kiwi', 2),
-(26, 9, 'dragonfruit', 3),
-(27, 9, 'lime', 3),
-(28, 9, 'huckleberry', 3),
-(29, 9, 'orange', 2),
-(30, 8, 'inception', 1),
-(31, 8, 'titanic', 1),
-(32, 8, 'avatar', 2),
-(33, 8, 'amadeus', 3),
-(34, 8, 'casablanca', 0),
-(35, 8, 'inception', 1),
-(36, 8, 'titanic', 1),
-(37, 8, 'avatar', 2),
-(38, 8, 'amadeus', 3),
-(39, 8, 'casablanca', 3),
-(40, 11, 'venus', 1),
-(41, 11, 'mars', 2),
-(42, 11, 'pluto', 3),
-(43, 11, 'saturn', 3),
-(44, 7, 'soccer', 2),
-(45, 7, 'badminton', 3),
-(46, 7, 'archery', 3),
-(47, 7, 'surfing', 2),
-(48, 7, 'tennis', 1),
-(49, 10, 'Moby Dick', 1),
-(50, 10, 'hamlet', 1),
-(51, 10, 'odyssey', 3),
-(52, 10, 'inferno', 2),
+INSERT INTO `word` (`idword`, `idtopic`, `word`, `difficulty`) VALUES
+(1, 6, 'Elephant', 0),
+(2, 6, 'penguin', 2),
+(3, 6, 'kangaroo', 2),
+(4, 6, 'crocodile', 1),
+(5, 6, 'giraffe', 0),
+(6, 6, 'platypus', 2),
+(7, 6, 'chameleon', 1),
+(8, 6, 'cat', 0),
+(9, 6, 'hippopotamus', 2),
+(10, 6, 'Orangutan', 2),
+(11, 14, 'australia', 0),
+(12, 14, 'brazil', 0),
+(13, 14, 'canada', 1),
+(14, 14, 'egypt', 1),
+(15, 14, 'morocco', 2),
+(16, 14, 'honduras', 2),
+(17, 14, 'japan', 1),
+(18, 14, 'finland', 2),
+(19, 14, 'indounisia', 2),
+(20, 14, 'saoudia', 2),
+(21, 9, 'apple', 0),
+(22, 9, 'banana', 0),
+(23, 9, 'cherry', 1),
+(24, 9, 'fig', 2),
+(25, 9, 'kiwi', 1),
+(26, 9, 'dragonfruit', 2),
+(27, 9, 'lime', 2),
+(28, 9, 'huckleberry', 2),
+(29, 9, 'orange', 1),
+(30, 8, 'inception', 0),
+(31, 8, 'titanic', 0),
+(32, 8, 'avatar', 1),
+(33, 8, 'amadeus', 2),
+(34, 8, 'casablanca', 1),
+(35, 8, 'inception', 0),
+(36, 8, 'titanic', 0),
+(37, 8, 'avatar', 1),
+(38, 8, 'amadeus', 2),
+(39, 8, 'casablanca', 2),
+(40, 11, 'venus', 0),
+(41, 11, 'mars', 1),
+(42, 11, 'pluto', 2),
+(43, 11, 'saturn', 2),
+(44, 7, 'soccer', 1),
+(45, 7, 'badminton', 2),
+(46, 7, 'archery', 2),
+(47, 7, 'surfing', 1),
+(48, 7, 'tennis', 0),
+(49, 10, 'Moby Dick', 0),
+(50, 10, 'hamlet', 0),
+(51, 10, 'odyssey', 2),
+(52, 10, 'inferno', 1),
 (53, 10, 'iliad', 0),
-(54, 10, 'Moby Dick', 1),
-(55, 10, 'hamlet', 1),
-(56, 10, 'odyssey', 3),
-(57, 10, 'inferno', 2),
-(58, 10, 'iliad', 2);
+(54, 10, 'Moby Dick', 0),
+(55, 10, 'hamlet', 0),
+(56, 10, 'odyssey', 2),
+(57, 10, 'inferno', 1),
+(58, 10, 'iliad', 1);
 
 --
 -- Index pour les tables déchargées
@@ -275,13 +248,6 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`idaccount`);
 
 --
--- Index pour la table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`idadmin`),
-  ADD KEY `fk_account2` (`idaccount`);
-
---
 -- Index pour la table `hint`
 --
 ALTER TABLE `hint`
@@ -289,33 +255,18 @@ ALTER TABLE `hint`
   ADD KEY `fk_word` (`idword`);
 
 --
--- Index pour la table `history`
---
-ALTER TABLE `history`
-  ADD PRIMARY KEY (`idgame`),
-  ADD KEY `fk_user` (`iduser`),
-  ADD KEY `fk_word2` (`idword`);
-
---
 -- Index pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
   ADD PRIMARY KEY (`idladerboard`),
-  ADD KEY `fk_user3` (`iduser`);
-
---
--- Index pour la table `player`
---
-ALTER TABLE `player`
-  ADD PRIMARY KEY (`iduser`),
-  ADD KEY `fk1_account` (`idaccount`);
+  ADD KEY `fk_account_laderboard` (`idaccount`);
 
 --
 -- Index pour la table `settings`
 --
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`idsettings`),
-  ADD KEY `fk_user4` (`iduser`);
+  ADD KEY `fk1_account` (`idaccount`);
 
 --
 -- Index pour la table `topic`
@@ -338,43 +289,25 @@ ALTER TABLE `word`
 -- AUTO_INCREMENT pour la table `account`
 --
 ALTER TABLE `account`
-  MODIFY `idaccount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT pour la table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `idadmin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idaccount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `hint`
 --
 ALTER TABLE `hint`
-  MODIFY `idhint` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT pour la table `history`
---
-ALTER TABLE `history`
-  MODIFY `idgame` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idhint` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
-  MODIFY `idladerboard` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `player`
---
-ALTER TABLE `player`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idladerboard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `idsettings` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idsettings` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `topic`
@@ -393,41 +326,22 @@ ALTER TABLE `word`
 --
 
 --
--- Contraintes pour la table `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `fk_account2` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
-
---
 -- Contraintes pour la table `hint`
 --
 ALTER TABLE `hint`
   ADD CONSTRAINT `fk_word` FOREIGN KEY (`idword`) REFERENCES `word` (`idword`);
 
 --
--- Contraintes pour la table `history`
---
-ALTER TABLE `history`
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`),
-  ADD CONSTRAINT `fk_word2` FOREIGN KEY (`idword`) REFERENCES `word` (`idword`);
-
---
 -- Contraintes pour la table `laderboard`
 --
 ALTER TABLE `laderboard`
-  ADD CONSTRAINT `fk_user3` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`);
-
---
--- Contraintes pour la table `player`
---
-ALTER TABLE `player`
-  ADD CONSTRAINT `fk1_account` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
+  ADD CONSTRAINT `fk_account_laderboard` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
 
 --
 -- Contraintes pour la table `settings`
 --
 ALTER TABLE `settings`
-  ADD CONSTRAINT `fk_user4` FOREIGN KEY (`iduser`) REFERENCES `player` (`iduser`);
+  ADD CONSTRAINT `fk1_account` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`);
 
 --
 -- Contraintes pour la table `word`

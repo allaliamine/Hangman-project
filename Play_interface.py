@@ -1,7 +1,9 @@
+import random
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QComboBox, QLabel, QPushButton, QMessageBox, QGroupBox
 from PySide6.QtGui import Qt
 import conn
 import interface_ini
+from HangmanPlay import HangmanGameInterface
 
 
 class PlayInterface(QMainWindow):
@@ -44,16 +46,20 @@ class PlayInterface(QMainWindow):
         self.topics_dropdown.setStyleSheet("background-color: black; border-radius: 10px;")
         self.topics_dropdown.setFixedWidth(350)
         self.topics_dropdown.setFixedHeight(40)
-        self.topics_dropdown.addItems(self.get_topics())
+
+        # self.topics_dropdown.addItems(self.get_topics())
+        topics = self.get_topics()
+        for topic_id, topic_name in topics:
+            self.topics_dropdown.addItem(topic_name, topic_id)
 
         # Create the play button
         self.play_button = QPushButton("Play")
         self.play_button.setStyleSheet(
             "background-color: black; color: white; font-size: 20px; border-radius: 10px; padding: 10px;")
         self.play_button.setFixedWidth(350)
+        self.play_button.clicked.connect(self.start_game)
 
-
-        # create go back button
+        # Create go back button
         self.back_button = QPushButton("Go Back")
         self.back_button.setStyleSheet(
             "background-color: red; color: white; font-size: 20px; border-radius: 10px; padding: 5px;")
@@ -80,12 +86,59 @@ class PlayInterface(QMainWindow):
             cur = conn.connection.cursor()
             cur.execute("SELECT * FROM topic")
             result = cur.fetchall()
-            topics = [row[1] for row in result]
+            topics = [(row[0], row[1]) for row in result]
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred: {e}")
             topics = []
 
         return topics
+
+    def get_words_and_hints(self, difficulty, idtopic):
+        try:
+            cur = conn.connection.cursor()
+
+            # Get the words and their hints based on difficulty and topic id
+            sql = ("SELECT w.idword, w.word, h.hintvalue FROM word w LEFT JOIN hint h ON w.idword = h.idword WHERE w.difficulty = %s AND w.idtopic = %s")
+            params = (difficulty, idtopic)
+            cur.execute(sql, params)
+            result = cur.fetchall()
+
+            # Organize the words and hints into a dictionary
+            words_and_hints = {}
+            for row in result:
+                word_id = row[0]
+                word = row[1]
+                hint = row[2]
+                if word not in words_and_hints:
+                    words_and_hints[word] = []
+                words_and_hints[word].append(hint)
+
+            return words_and_hints
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+            return {}
+
+    def start_game(self):
+
+        difficulty = self.difficulty_dropdown.currentIndex()
+        idtopic = self.topics_dropdown.currentData()
+        words_and_hints = self.get_words_and_hints(difficulty, idtopic)
+
+        if not words_and_hints:
+            QMessageBox.warning(self, "Warning", f"No words available for the selected difficulty and topic. {difficulty},{idtopic}")
+            return
+
+        word, hints = random.choice(list(words_and_hints.items()))
+
+        # Print the selected word to the console for debugging
+        print(f"Selected word: {word}")
+        print(f"Hint : {hints}")
+
+
+        # Start the game with the selected word and its hints
+        self.game_window = HangmanGameInterface(word, hints, self.user_data)
+        self.game_window.show()
+        self.close()
 
     def choice_interface(self):
         self.login_window = interface_ini.InterfaceChoice(user_data=self.user_data)
