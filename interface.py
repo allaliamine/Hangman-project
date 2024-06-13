@@ -72,7 +72,7 @@ class SingupWindow(QMainWindow):
         submit_button.setStyleSheet(
             "background-color: black; color: white ; border-radius:10px; padding: 10px ; height : 20px;")
 
-        # Connect the button to a function (e.g., for processing the sign-in)
+
         submit_button.clicked.connect(self.sign_up)
 
         # Add the exit button

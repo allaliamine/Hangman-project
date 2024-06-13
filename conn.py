@@ -1,7 +1,9 @@
 import mysql.connector
-connection = mysql.connector.connect(host="localhost",
-                                     user="root",
-                                     password="",
-                                     database="hangman")
+try:
+    connection = mysql.connector.connect(host="localhost",
+                                         user="root",
+                                         password="",
+                                         database="hangman")
+except Exception:
+    print("Connection failed!!")
 
-# print(connection)

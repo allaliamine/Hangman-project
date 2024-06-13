@@ -32,7 +32,7 @@ class ClassementtWindow(QMainWindow):
         # Style the header
         header = self.leaderboard_table.horizontalHeader()
         header.setFont(QFont("Arial", 12, QFont.Bold))
-        header.setStyleSheet("color: #003285; background-color: #3333A3;")
+        header.setStyleSheet("color: white; background-color: #3333A3;")
         header.setDefaultAlignment(Qt.AlignCenter)
 
         # Style the rows

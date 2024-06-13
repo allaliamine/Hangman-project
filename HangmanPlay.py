@@ -69,7 +69,7 @@ class HangmanGameInterface(QWidget):
         # Divide buttons into rows
         rows = [buttons[i:i + 10] for i in range(0, len(buttons), 10)]
 
-        # Add buttons to rows layout
+        # Add buttons
         for row in rows:
             row_layout = QHBoxLayout()
             for button in row:

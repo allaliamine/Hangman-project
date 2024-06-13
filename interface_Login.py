@@ -96,7 +96,7 @@ class LoginWindow(QMainWindow):
 
             if res:
                 self.user_data = res[0]
-                QMessageBox.information(self, "Login Successful", f"Welcome, {self.user_data}!")
+                QMessageBox.information(self, "Login Successful", f"Welcome!")
                 self.enter()
             else:
                 QMessageBox.warning(self, "Login Failed", "Incorrect username or password.")
