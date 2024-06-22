@@ -9,6 +9,7 @@
 5. [Usage](#usage)
 6. [Demo Video](#demo-video)
 7. [Contacts](#contacts)
+8. [Note](#note)
 
 
 ## Description
@@ -63,7 +64,7 @@ This project involves the development of an interactive Hangman game using Pytho
 
   ![choices](demo/Choice.png)
 
-  - LaderBoard Interface :
+  - Leaderboard Interface :
 
   ![Ranks](demo/Ranking.png)
 
@@ -85,3 +86,8 @@ https://github.com/allaliamine/Hangman-project/assets/155643939/b8daeded-a4bd-4d
 For any inquiries or feedback, please contact:
 - <a href="https://www.linkedin.com/in/m-amin-allali/" target="_blank"> Allali Mohamed Amin </a><br>
 - <a href="https://www.linkedin.com/in/insaf-badri-588299248/" target="_blank"> Badri Insaf</a><br>
+
+## Note!!
+
+-Some words have no hints.
+-Some difficulties and topics have no words.
