@@ -11,7 +11,7 @@
 7. [Contacts](#contacts)
 
 
-## description
+## Description
 
 This project involves the development of an interactive Hangman game using Python, enhanced with a graphical user interface (GUI). Hangman is a classic word-guessing game where players attempt to guess a hidden word by suggesting letters within a certain number of guesses. If the player suggests a letter that is not in the word, a part of a stick figure (the "hangman") is drawn. The game ends either when the word is fully guessed or when the hangman is completely drawn.
 
