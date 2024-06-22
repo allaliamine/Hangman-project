@@ -29,7 +29,7 @@ This project involves the development of an interactive Hangman game using Pytho
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/`
+1. Clone the repository: `git clone https://github.com/allaliamine/Hangman-project.git`
 2. Set up Apache and MySQL server.
 3. Import the hangman(1).sql to your database
 4. Import the project into your preferred IDE (PyCharm, VScode, ...).
