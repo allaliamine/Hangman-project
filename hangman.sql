@@ -35,16 +35,6 @@ CREATE TABLE `account` (
   `role` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `account`
---
-
-INSERT INTO `account` (`idaccount`, `username`, `password`, `name`, `role`) VALUES
-(1, 'allali', 'allali123', 'amine', 0),
-(15, 'ilias123', '1234', 'ilias', 1),
-(16, 'allali99', '123', 'amine', 1),
-(17, 'insaf', 'insaf123', 'insaf', 1),
-(20, 'anouar11', '1234', 'anouar', 1);
 
 -- --------------------------------------------------------
 
@@ -103,15 +93,6 @@ CREATE TABLE `laderboard` (
   `score` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `laderboard`
---
-
-INSERT INTO `laderboard` (`idladerboard`, `idaccount`, `score`) VALUES
-(1, 1, 17),
-(2, 10, 1),
-(3, 17, 3),
-(4, 20, 4);
 
 -- --------------------------------------------------------
 
@@ -125,18 +106,6 @@ CREATE TABLE `settings` (
   `hintenabled` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `settings`
---
-
-INSERT INTO `settings` (`idsettings`, `idaccount`, `hintenabled`) VALUES
-(1, 1, 1),
-(2, 15, 1),
-(3, 16, 1),
-(4, 17, 1),
-(5, 18, 1),
-(6, 19, 1),
-(7, 20, 0);
 
 -- --------------------------------------------------------
 
