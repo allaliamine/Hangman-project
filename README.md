@@ -7,7 +7,8 @@
 3. [Technologies Used](#technologies-used)
 4. [Installation](#installation)
 5. [Usage](#usage)
-6. [Contacts](#contacts)
+6. [Demo Video](#demo-video)
+7. [Contacts](#contacts)
 
 
 ## description
@@ -44,7 +45,6 @@ This project involves the development of an interactive Hangman game using Pytho
 4. Start playing the Hangman Game by chosing a difficulty and a topic.
 5. Enjoy the game!
 
-### User Interfaces:
 - Home Interface :
 
  ![home](demo/home-interface.png)
@@ -70,9 +70,9 @@ This project involves the development of an interactive Hangman game using Pytho
   ![settings](demo/settings.png)
 
 
+## Demo Video
 
-
-
+Watch our demo video to see the Hangman Game in action:
 
 
 ## Contacts
