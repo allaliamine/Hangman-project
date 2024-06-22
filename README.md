@@ -76,7 +76,7 @@ This project involves the development of an interactive Hangman game using Pytho
 
 Watch our demo video to see the Hangman Game in action:
 
-https://github.com/allaliamine/Hangman-project/assets/155643939/e2e8fc44-e8f1-4716-8cc9-965bc9f86f9f
+https://github.com/allaliamine/Hangman-project/assets/155643939/b8daeded-a4bd-4d7a-b93a-1699d01f5ebe
 
 
 
