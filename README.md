@@ -41,7 +41,7 @@ This project involves the development of an interactive Hangman game using Pytho
 ## Usage
 
 1. Start Apache and MySQL Database server.
-2. Access the application by running the main.py file.
+2. Access the application by running the `main.py` file.
 3. Register for an account or log in if you already have one.
 4. Start playing the Hangman Game by chosing a difficulty and a topic.
 5. Enjoy the game!
