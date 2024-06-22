@@ -89,6 +89,6 @@ For any inquiries or feedback, please contact:
 
 ## Note!!
 
--Some words have no hints.
--Some difficulties and topics have no words.
--The `hangman.sql` will add just some words and hints to the database. The user should create an account to play
+- Some words have no hints.
+- Some difficulties and topics have no words.
+- The `hangman.sql` will add just some words and hints to the database. The user should create an account to play
