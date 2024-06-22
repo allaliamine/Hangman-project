@@ -45,6 +45,8 @@ This project involves the development of an interactive Hangman game using Pytho
 4. Start playing the Hangman Game by chosing a difficulty and a topic.
 5. Enjoy the game!
 
+
+### User Interfaces
 - Home Interface :
 
  ![home](demo/home-interface.png)
