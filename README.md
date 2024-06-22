@@ -33,7 +33,7 @@ This project involves the development of an interactive Hangman game using Pytho
 
 1. Clone the repository: `git clone https://github.com/allaliamine/Hangman-project.git`
 2. Set up Apache and MySQL server.
-3. Import the `hangman(1).sql` to your database
+3. Import the `hangman.sql` to your database
 4. Import the project into your preferred IDE (PyCharm, VScode, ...).
 5. Change user, password, database name in the `conn.py` file
 
@@ -91,3 +91,4 @@ For any inquiries or feedback, please contact:
 
 -Some words have no hints.
 -Some difficulties and topics have no words.
+-The `hangman.sql` will add just some words and hints to the database. The user should create an account to play
